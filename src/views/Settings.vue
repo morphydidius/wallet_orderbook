@@ -15,10 +15,21 @@
 		<br>
 
 		<button @click="getOrderBook">Отправить</button>
+
+		<div v-if="isLoading">Загрузка...</div>
+
+		<div v-if="asks.length || bids.length">
+			Аски и биды в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
+		</div>
+
+		<wo-logs />
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import WoLogs from '@/components/Logs';
+
 export default {
 	name: 'WoSettings',
 	data() {
@@ -40,13 +51,22 @@ export default {
 			selectedPairValue: null,
 		};
 	},
+	components: {
+		WoLogs,
+	},
+	computed: {
+		...mapState({
+			isLoading: state => state.isLoading,
+			asks: state => state.asks,
+			bids: state => state.bids,
+		}),
+	},
 	mounted() {
 		this.selectedPairValue = this.$refs.currencyPair.value;
 	},
 	methods: {
 		getOrderBook() {
 			this.$store.dispatch('getOrderBookByName', this.selectedPairValue);
-
 		},
 		selectPair(e) {
 			this.selectedPairValue = e.target.value;

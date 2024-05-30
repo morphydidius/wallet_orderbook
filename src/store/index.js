@@ -1,40 +1,78 @@
 import { createStore } from 'vuex';
 import orderBookApi from '@/api/orderBookApi';
-import btcusdt from '@/store/btcusdt';
 
 export default createStore({
     state: {
-        currentPairName: null,
+        currentPairName: '',
+        isLoading: false,
+        asks: [],
+        bids: [],
+        error: null,
+        logs: [],
     },
     getters: {
-        currentAsks: state => state[state.currentPairName]?.asks || [],
-        currentBids: state => state[state.currentPairName]?.bids || [],
+        currentAsks: state => state.asks,
+        currentBids: state => state.bids,
     },
     mutations: {
         setCurrentPairName: (state, name) => {
             state.currentPairName = name;
         },
+        getOrderBookStart: state => {
+            state.isLoading = true;
+        },
+        getOrderBookSuccess: (state, { asks, bids }) => {
+            state.isLoading = false;
+            state.asks = asks;
+            state.bids = bids;
+        },
+        getOrderBookFailure: (state, error) => {
+            state.isLoading = false;
+            state.error = error;
+        },
+        resetState: state => {
+            Object.assign(state, {
+                currentPairName: '',
+                asks: [],
+                bids: [],
+                error: null,
+            });
+        },
+        registerPairChange: (state, payload) => {
+            state.logs.unshift(payload);
+        },
     },
     actions: {
-        getOrderBookByName(context, name) {
-            const moduleName = name.toLowerCase();
+        getOrderBookByName({ commit, state }, name) {
+            const pairName = name.toLowerCase();
+            const oldPairName = state.currentPairName.toUpperCase();
 
-            context.commit('setCurrentPairName', moduleName);
-            context.commit(`${moduleName}/getOrderBookStart`);
+            if (name === oldPairName) return;
+
+            const log = {
+                old: oldPairName,
+                current: name,
+            };
+
+            commit('resetState');
+            commit('setCurrentPairName', pairName);
+            commit('getOrderBookStart');
 
             return new Promise(resolve => {
                 orderBookApi.getOrderBook(name)
                     .then(data => {
-                        context.commit(`${moduleName}/getOrderBookSuccess`, data);
+                        commit('getOrderBookSuccess', data);
+                        commit('registerPairChange', {
+                            ...log,
+                            date: new Date(),
+                        });
                         resolve(data);
                     })
                     .catch(error => {
-                        context.commit(`${moduleName}/getOrderBookFailure`, error);
+                        commit('getOrderBookFailure', error);
                     })
             });
         },
     },
-    modules: {
-        btcusdt,
-    },
+    modules: {},
 });

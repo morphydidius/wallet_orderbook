@@ -4,7 +4,11 @@
 
 		<br>
 
-		<select ref="currencyPair" @change="selectPair">
+		<select
+			ref="currencyPair"
+			:disabled="isLoading"
+			@change="selectPair"
+		>
 			<option
 				v-for="pair in currencyPairs"
 				:value="pair.value"
@@ -14,7 +18,10 @@
 
 		<br>
 
-		<button @click="getOrderBook">Отправить</button>
+		<button
+			:disabled="isLoading"
+			@click="getOrderBook"
+		>Отправить</button>
 
 		<div v-if="isLoading">Загрузка...</div>
 
@@ -66,7 +73,11 @@ export default {
 	},
 	methods: {
 		getOrderBook() {
-			this.$store.dispatch('getOrderBookByName', this.selectedPairValue);
+			this.$store
+				.dispatch('getOrderBookByName', this.selectedPairValue)
+				.then(() => {
+					this.$store.dispatch('updateOrderBook', this.selectedPairValue);
+				});
 		},
 		selectPair(e) {
 			this.selectedPairValue = e.target.value;

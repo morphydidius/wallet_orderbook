@@ -3,6 +3,7 @@
 
 	&__logo {
 		opacity: 1 !important;
+		fill: rgb(var(--v-theme-on-surface));
 	}
 
 	&__loader {
@@ -13,7 +14,25 @@
 		border-radius: 50%;
 		box-sizing: border-box;
 		animation: animloader 1s ease-in infinite;
-	} 
+	}
+
+	.v-app-bar.v-toolbar {
+		background: rgb(var(--v-theme-bar));
+	}
+
+	.v-table {
+		background: rgb(var(--v-theme-table-bg));
+		color: rgb(var(--v-theme-table-color));
+
+		thead {
+			background: rgb(var(--v-theme-table-head));
+			color: rgb(var(--v-theme-on-surface));
+		}
+	}
+
+	.v-tabs-window {
+		display: none;
+	}
 }
 
 @keyframes animloader {

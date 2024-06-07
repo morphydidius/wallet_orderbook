@@ -1,6 +1,6 @@
 <template>
 	<v-app-bar>
-		<template v-slot:prepend>
+		<v-container class="d-flex justify-space-between align-center pa-0">
 			<router-link :to="{ name: 'home' }">
 				<v-btn
 					:ripple="false"
@@ -10,9 +10,7 @@
 					<wo-logo></wo-logo>
 				</v-btn>
 			</router-link>
-		</template>
 
-        <template v-slot:append>
 			<v-tabs
 				:items="tabs"
 				v-model="selectedTabId"
@@ -28,8 +26,8 @@
 					{{ tab.text }}
 				</v-tab>
 			</v-tabs>
-		</template>
-    </v-app-bar>
+		</v-container>
+	</v-app-bar>
 </template>
 
 <script>

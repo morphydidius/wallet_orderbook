@@ -1,8 +1,8 @@
 <template>
-	<div class="wo__logs">
-		<div class="pb-2">Логи изменений</div>
-		
-		<v-table v-if="logs.length">
+	<div class="wo__logs py-8">
+		<div class="pb-4">Логи изменений:</div>
+
+		<v-table density='compact'>
 			<thead>
 				<tr>
 					<th class="text-left">
@@ -28,17 +28,16 @@
 
 					<td>{{ current }}</td>
 
-					<td>{{ date }}</td>
+					<td>{{ normalize(date) }}</td>
 				</tr>
 			</tbody>
 		</v-table>
-
-		<div v-else>-</div>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import dayjs from 'dayjs';
 
 export default {
 	name: 'WoLogs',
@@ -47,5 +46,10 @@ export default {
 			logs: state => state.logs,
 		}),
 	},
+	methods: {
+		normalize(date) {
+			return dayjs(date).format('YYYY-MM-DD HH:mm:ss') ;
+		},
+	}
 };
 </script>

@@ -1,18 +1,16 @@
 <template>
 	<v-container class="px-4">
-		<v-row>
-			<v-select
-				:items="currencyPairs"
-				v-model="selectedPairValue"
-				label="Выберите валютную пару"
-				class="mt-3"
-				variant="underlined"
-				width="300"
-				clearable
-			></v-select>
-		</v-row>
+		<v-select
+			:items="currencyPairs"
+			v-model="selectedPairValue"
+			label="Выберите валютную пару"
+			class="mt-3"
+			variant="underlined"
+			max-width="400px"
+			clearable
+		></v-select>
 
-		<v-row>
+		<v-row class="px-3 mt-2">
 			<v-btn
 				variant="tonal"
 				:disabled="isLoading || !selectedPairValue"
@@ -23,14 +21,12 @@
 			</v-btn>
 		</v-row>
 
-		<v-row>
-			<div v-if="asks.length || bids.length" class="py-2">
-				Аски и биды в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
-			</div>
-		</v-row>
+		<wo-logs />
 
-		<v-row class="pt-2" >
-			<wo-logs />
+		<v-row>
+			<div v-if="asks.length || bids.length" class="pa-4">
+				Аски и биды доступны в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
+			</div>
 		</v-row>
 	</v-container>
 </template>
@@ -74,6 +70,9 @@ export default {
 		btnText() {
 			return this.isLoading ? 'Загрузка' : 'Загрузить';
 		},
+	},
+	mounted() {
+		this.selectedPairValue = this.currencyPairs[0].value;
 	},
 	methods: {
 		getOrderBook() {

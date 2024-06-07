@@ -1,41 +1,44 @@
 <template>
-	<div>
-		Выберите валютную пару:
+	<v-container class="px-4">
+		<v-row>
+			<v-select
+				:items="currencyPairs"
+				v-model="selectedPairValue"
+				label="Выберите валютную пару"
+				class="mt-3"
+				variant="underlined"
+				width="300"
+				clearable
+			></v-select>
+		</v-row>
 
-		<br>
+		<v-row>
+			<v-btn
+				variant="tonal"
+				:disabled="isLoading || !selectedPairValue"
+				class="px-4"
+				@click="getOrderBook"
+			>
+				<wo-loader v-if="isLoading"></wo-loader>&nbsp;{{ btnText }}
+			</v-btn>
+		</v-row>
 
-		<select
-			ref="currencyPair"
-			:disabled="isLoading"
-			@change="selectPair"
-		>
-			<option
-				v-for="pair in currencyPairs"
-				:value="pair.value"
-				:key="pair.value"
-			>{{ pair.name }}</option>
-		</select>
+		<v-row>
+			<div v-if="asks.length || bids.length" class="py-2">
+				Аски и биды в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
+			</div>
+		</v-row>
 
-		<br>
-
-		<button
-			:disabled="isLoading"
-			@click="getOrderBook"
-		>Отправить</button>
-
-		<div v-if="isLoading">Загрузка...</div>
-
-		<div v-if="asks.length || bids.length">
-			Аски и биды в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
-		</div>
-
-		<wo-logs />
-	</div>
+		<v-row class="pt-2" >
+			<wo-logs />
+		</v-row>
+	</v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import WoLogs from '@/components/Logs';
+import WoLoader from '@/components/Loader';
 
 export default {
 	name: 'WoSettings',
@@ -43,15 +46,15 @@ export default {
 		return {
 			currencyPairs: [
 				{
-					name: 'Bitcoin / Tether, BTC / USDT',
+					title: 'Bitcoin / Tether, BTC / USDT',
 					value: 'BTCUSDT',
 				},
 				{
-					name: 'BNB / Bitcoin, BNB / BTC',
+					title: 'BNB / Bitcoin, BNB / BTC',
 					value: 'BNBBTC',
 				},
 				{
-					name: 'Ethereum / Bitcoin, ETH / BTC',
+					title: 'Ethereum / Bitcoin, ETH / BTC',
 					value: 'ETHBTC',
 				},
 			],
@@ -60,6 +63,7 @@ export default {
 	},
 	components: {
 		WoLogs,
+		WoLoader,
 	},
 	computed: {
 		...mapState({
@@ -67,9 +71,9 @@ export default {
 			asks: state => state.asks,
 			bids: state => state.bids,
 		}),
-	},
-	mounted() {
-		this.selectedPairValue = this.$refs.currencyPair.value;
+		btnText() {
+			return this.isLoading ? 'Загрузка' : 'Загрузить';
+		},
 	},
 	methods: {
 		getOrderBook() {
@@ -78,9 +82,6 @@ export default {
 				.then(() => {
 					this.$store.dispatch('updateOrderBook', this.selectedPairValue);
 				});
-		},
-		selectPair(e) {
-			this.selectedPairValue = e.target.value;
 		},
 	}
 };

@@ -1,7 +1,11 @@
 <template>
-    <wo-header></wo-header>
+    <v-app class="wo">
+        <wo-header></wo-header>
 
-    <router-view/>
+        <v-main>
+            <router-view/>
+        </v-main>
+    </v-app>
 </template>
 
 <script>

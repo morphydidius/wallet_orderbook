@@ -8,12 +8,28 @@
 			>{{ num }}</option>
 		</select>
 
-		<div
-			v-for="([price, quantity], index) in ordersList"
-			:key="`${price}${index}`"
+		<v-table
+			height="85vh"
+			fixed-header
 		>
-			{{ getPrice(price) }}&nbsp;{{ getQuantity(quantity) }}&nbsp;{{ getTotal(price, quantity) }}
-		</div>
+			<thead>
+				<tr>
+					<th class="text-left">Price</th>
+					<th class="text-left">Quantity</th>
+					<th class="text-left">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					v-for="([price, quantity], index) in ordersList"
+					:key="`${price}${index}`"
+				>
+					<td>{{ getPrice(price) }}&nbsp;</td>
+					<td>{{ getQuantity(quantity) }}&nbsp;</td>
+					<td>{{ getTotal(price, quantity) }}</td>
+				</tr>
+			</tbody>
+		</v-table>
 	</div>
 </template>
 
@@ -77,12 +93,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
-.book {
-	display: flex;
-	flex-direction: column;
-	height: 80vh;
-	overflow: scroll;
-}
-</style>

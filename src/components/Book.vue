@@ -1,21 +1,25 @@
 <template>
-	<div class="book">
-		<select @change="changeElemsCount">
-			<option
-				v-for="num in elemsPerTableList"
-				:value="num"
-				:key="num"
-			>{{ num }}</option>
-		</select>
+	<div class="wo__book flex-grow-1 px-4">
+		<div class="d-flex justify-space-between align-center">
+			<div class="text-h6 mb-2">{{ title }}</div>
 
-		<v-table
-			height="85vh"
-			fixed-header
-		>
+			<v-select
+				:items="elemsPerTableList"
+				v-model="elemsPerTable"
+				label="Отображать по:"
+				variant="underlined"
+				class="ml-6"
+				clearable
+			></v-select>
+		</div>
+
+		<v-table class="wo__book__table" fixed-header>
 			<thead>
 				<tr>
 					<th class="text-left">Price</th>
-					<th class="text-left">Quantity</th>
+					<th
+						class="text-left d-none d-sm-table-cell"
+					>Quantity</th>
 					<th class="text-left">Total</th>
 				</tr>
 			</thead>
@@ -25,7 +29,9 @@
 					:key="`${price}${index}`"
 				>
 					<td>{{ getPrice(price) }}&nbsp;</td>
-					<td>{{ getQuantity(quantity) }}&nbsp;</td>
+					<td
+						class="d-xs-none d-none d-sm-table-cell"
+					>{{ getQuantity(quantity) }}&nbsp;</td>
 					<td>{{ getTotal(price, quantity) }}</td>
 				</tr>
 			</tbody>
@@ -64,6 +70,10 @@ export default {
 			type: Array,
 			required: true,
 		},
+		title: {
+			type: String,
+			required: true,
+		},
 	},
 	computed: {
 		...mapState({
@@ -76,11 +86,9 @@ export default {
 		},
 	},
 	methods: {
-		changeElemsCount(e) {
-			this.elemsPerTable = e.target.value;
-		},
 		getTotal(price, quantity) {
-			return price * quantity;
+			return Number(price * quantity)
+				.toFixed(symbolsAfterComma[this.pairName].price);
 		},
 		getPrice(price) {
 			return Number(price)

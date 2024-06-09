@@ -1,5 +1,18 @@
+$sm-width: 800px;
+$sm-height: 600px;
+
 .wo {
 	font: 14px 'Arial';
+
+	&__book {
+		&__table {
+			height: 70vh;
+
+			@media (orientation: landscape) and (max-height: $sm-height) {
+				height: 55vh;
+			}
+		}
+	}
 
 	&__logo {
 		opacity: 1 !important;

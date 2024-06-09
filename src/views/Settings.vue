@@ -17,7 +17,8 @@
 				class="px-4"
 				@click="getOrderBook"
 			>
-				<wo-loader v-if="isLoading"></wo-loader>&nbsp;{{ btnText }}
+				<wo-loader v-if="isLoading"></wo-loader>&nbsp;
+				{{ btnText }}
 			</v-btn>
 		</v-row>
 
@@ -25,7 +26,9 @@
 
 		<v-row>
 			<div v-if="asks.length || bids.length" class="pa-4">
-				Аски и биды доступны в <router-link :to="{ name: 'orderBook' }">Order Book</router-link>
+				Аски и биды доступны в <router-link
+					:to="{ name: 'orderBook' }"
+				>Order Book</router-link>
 			</div>
 		</v-row>
 	</v-container>

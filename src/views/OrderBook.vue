@@ -1,17 +1,19 @@
 <template>
-	<div>
+	<v-container class="px-4">
 		<div
 			v-if="currentPairName"
-			class="order-book"
+			class="wo__orderbook d-flex justify-space-around"
 		>
 			<wo-book
 				v-if="currentAsks.length"
 				:orders="currentAsks"
+				title="Asks"
 			></wo-book>
 
 			<wo-book
 				v-if="currentBids.length"
 				:orders="currentBids"
+				title="Bids"
 			></wo-book>
 		</div>
 
@@ -19,7 +21,7 @@
 			Выберите пару в&nbsp;
 			<router-link :to="{ name: 'settings' }">настройках</router-link>
 		</div>
-	</div>
+	</v-container>
 </template>
 
 <script>
@@ -42,10 +44,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
-.order-book {
-	display: flex;
-	justify-content: space-around;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar>
+	<v-app-bar ref="header">
 		<v-container class="d-flex justify-space-between align-center pa-0">
 			<router-link :to="{ name: 'home' }">
 				<v-btn

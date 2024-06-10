@@ -1,4 +1,4 @@
-$sm-width: 800px;
+$xs-width: 600px;
 $sm-height: 600px;
 
 .wo {
@@ -17,6 +17,11 @@ $sm-height: 600px;
 	&__logo {
 		opacity: 1 !important;
 		fill: rgb(var(--v-theme-on-surface));
+
+		@media (max-width: $xs-width) {
+			min-width: 50px;
+			width: 50px;
+		}
 	}
 
 	&__loader {

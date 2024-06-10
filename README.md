@@ -1,4 +1,7 @@
-# orderbook
+# Order Book: отображение асков и бидов по валютным парам
+
+> Проект на Vue.js с использованием Vue CLI, Vuex, Vuetify, WebSocket
+> API: Binance [Binance](https://github.com/binance/binance-spot-api-docs)
 
 ## Project setup
 ```
@@ -14,11 +17,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

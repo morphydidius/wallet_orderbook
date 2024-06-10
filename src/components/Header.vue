@@ -21,6 +21,7 @@
 					:selected="isTabActive(tab)"
 					:value="tab.id"
 					variant="text"
+					class="px-2 px-sm-4"
 					@click="goTo(tab.value)"
 				>
 					{{ tab.text }}

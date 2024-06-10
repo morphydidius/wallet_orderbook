@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import WoHome from '../views/Home';
 import WoSettings from '@/views/Settings';
 import WoOrderBook from '@/views/OrderBook';
@@ -20,11 +20,11 @@ const routes = [
         name: 'orderBook',
         component: WoOrderBook,
     },
-]
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+    history: createWebHashHistory(),
+    routes,
 });
 
 export default router;

@@ -1,6 +1,6 @@
 # Order Book: отображение асков и бидов по валютным парам
 
-> Проект на Vue.js с использованием Vue CLI, Vuex, Vuetify, WebSocket
+> Проект на Vue.js с использованием Vue CLI, Vuex, Vuetify, WebSocket  
 > API: [Binance](https://github.com/binance/binance-spot-api-docs)
 
 ## Установка
@@ -8,7 +8,7 @@
 npm install
 ```
 
-### Запуск режима разработки с hot-reload
+### Запуск режима разработки с hot-reload (http://localhost:8080)
 ```
 npm run serve
 ```
